@@ -1,0 +1,49 @@
+{
+	"name": "orchestaratepipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "DataIngestionPipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "dataingestion1",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DataTransformation",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DataIngestionPipeline",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "datatransformation",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-07-06T19:04:58Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
